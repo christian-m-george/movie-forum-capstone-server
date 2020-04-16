@@ -7,7 +7,7 @@ const apiDataService = {
 	insertMovie(knex, newMovie) {
 		return knex
 			.insert(newMovie)
-			.into('api_data')
+			.into('movies')
 			.returning('*')
 			.then(rows => {
 				return rows[0]

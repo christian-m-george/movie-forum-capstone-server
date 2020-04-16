@@ -26,23 +26,26 @@ app.set('db', db);
 
 //external API call working 
 let getMovies = function (query) {
+    // console.log('inside get movie function', query)
 	let emitter = new events.EventEmitter();
 	let options = {
-		host: 'https://api.themoviedb.org',
-		path: '/3/search/movie?api_key=70ba99fec3f2ffeb58b1814b7fb15905&language=en-US&query=/' + query,
+		host: 'api.themoviedb.org',
+		path: '/3/search/movie?api_key=70ba99fec3f2ffeb58b1814b7fb15905&language=en-US&query=' + query,
 		method: 'GET',
 		headers: {
 			'Authorization': "70ba99fec3f2ffeb58b1814b7fb15905",
 			'Content-Type': "application/json",
-			// 'Port': 443,
+			'Port': 443,
 		}
 	};
 
 	https.get(options, function (res) {
 		res.on('data', function (chunk) {
+            // console.log(chunk, 'chunk response')
 			emitter.emit('end', JSON.parse(chunk));
 		});
 	}).on('error', function (e) {
+        // console.log(e, 'this is the error log')
 		emitter.emit('error', e);
 	});
 	return emitter;
@@ -56,27 +59,28 @@ app.get('/search/movie/:movieQuery', function (req, res) {
 
 	//get the data from the first api call
 	searchReq.on('end', function (newMovie) {
-		console.log(newMovie.movie);
+        console.log(newMovie.results.length, 'logging movie response');
+        // console.log(newMovie.results.length, 'logging movie response length');
 		//database conection 
 		let dbSaveMovie = [];
-		for (let i = 0; i < newMovie.movie.length; i++) {
-			let movieName = newMovie.movie[i].name
-			let movieNameLowerCase = movieName.toLowerCase();
-			let movieQueryLowerCase = req.params.movieQuery.toLowerCase();
+		for (let i = 0; i < newMovie.results.length; i++) {
+            // console.log(newMovie[i], 'logging newmovie array')
 			dbSaveMovie[i] = {
-				image: newMovie.movie[i].backdrop_path,
-				title: newMovie.movie[i].title,
-				releaseDate: newMovie.movie[i].release_date,
-				rating: newMovie.movie[i].vote_average,
-                synopsis: newMovie.movie[i].overview,
-                genre: newMovie.movie[i].genre_ids
-			};
-		}
+				image: newMovie.results[i].backdrop_path,
+				title: newMovie.results[i].title,
+				releaseDate: newMovie.results[i].release_date,
+				rating: newMovie.results[i].vote_average,
+                synopsis: newMovie.results[i].overview,
+                // genre: newMovie.results[i].genre_ids
+            };
+            console.log(dbSaveMovie, 'logging the movie save')
+        }
+        
 		apiDataService.insertMovie(req.app.get('db'), dbSaveMovie)
 			.then(newMovie => {
 				res
 					.status(201)
-					.json(newMovie.movie)
+					.json(newMovie)
 			})
 		res.json(dbSaveMovie);
 	});
