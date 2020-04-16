@@ -4,6 +4,10 @@ const morgan = require('morgan')
 const cors = require('cors')
 const helmet = require('helmet')
 const { NODE_ENV } = require('./config')
+const moviesRouter = require('../apiData/api-data-router');
+const userDataRouter = require('../usersData/users-data-router');
+const config = require('./config')
+
 
 const app = express()
 
@@ -15,8 +19,11 @@ app.use(morgan(morganOption))
 app.use(helmet())
 app.use(cors())
 
+
+app.use('/api/movies', moviesRouter)
+app.use('/api/user-data', userDataRouter)
 app.get('/', (req, res) => {
-    res.send('hello world!')
+    res.send('baseline working!')
 })
 
 app.use(function errorHandler(error, req, res, next) {
