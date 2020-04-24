@@ -10,7 +10,7 @@ const apiDataService = {
 			.into('movies')
 			.returning('*')
 			.then(rows => {
-				return rows[0]
+				return rows
 			})
 	},
 
@@ -31,13 +31,13 @@ const apiDataService = {
 			.first()
 	},
 
-	deleteMovie(knex, id) {
-		return knex('api_data')
-			.where({
-				id
-			})
-			.delete()
-	},
+	// deleteMovie(knex, id) {
+	// 	return knex('api_data')
+	// 		.where({
+	// 			id
+	// 		})
+	// 		.delete()
+	// },
 
 	// updateMovie(knex, id, newMovieFields) {
 	// 	return knex('api_data')

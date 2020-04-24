@@ -15,7 +15,7 @@ const serializeUserData = newData => ({
 })
 
 userDataRouter
-	.route('/userData')
+	.route('/user-data')
 	.get((req, res, next) => {
 		const knexInstance = req.app.get('db');
 		userDataService.getAllUserData(knexInstance)
@@ -56,7 +56,7 @@ userDataRouter
 			.then(newData => {
 				res
 					.status(201)
-					//      .location(path.posix.join(req.originalUrl + `/${note.id}`)) // req.originalUrl contains a string of the full request URL of request
+					.location(path.posix.join(req.originalUrl + `/${note.id}`)) // req.originalUrl contains a string of the full request URL of request
 					.json(newData)
 			})
 			.catch(next)
