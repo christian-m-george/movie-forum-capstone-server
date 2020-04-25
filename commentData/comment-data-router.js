@@ -1,8 +1,8 @@
 const path = require('path')
 const express = require('express')
 const xss = require('xss')
-const CommentsService = require('./comments-service')
-const { requireAuth } = require('../middleware/jwt-auth')
+const commentDataService = require('./comment-data-service')
+// const { requireAuth } = require('../middleware/jwt-auth')
 
 const commentsRouter = express.Router()
 const jsonParser = express.json()
@@ -14,15 +14,15 @@ const serializeComment = comment => ({
 })
 
 commentsRouter
-    .route('/')
+    .route('/comments')
     .get((req, res, next) => {
-        CommentsService.getComments(req.app.get('db'))
+        commentDataService.getComments(req.app.get('db'))
             .then(comments => {
                 res.json(comments)
             })
             .catch(next)
     })
-    .post(requireAuth, jsonParser, (req, res, next) => {
+    .post(jsonParser, (req, res, next) => {
         const { user_name, movie_id, comment } = req.body
         const newComment = {  user_name, movie_id, comment }
 
@@ -35,7 +35,7 @@ commentsRouter
         newComment.user_id = req.user.id
         newComment.user_name = req.user.user_name
 
-        CommentsService.insertComment(
+        commentDataService.insertComment(
             req.app.get('db'),
             newComment
         )
@@ -51,7 +51,7 @@ commentsRouter
 commentsRouter
     .route('/:object_id')
     .all((req, res, next) => {
-        CommentsService.getById(req.app.get('db'), req.params.object_id)
+        commentDataService.getCommentById(req.app.get('db'), req.params.object_id)
             .then(comments => {
                 if (!comments) {
                     return res.status(404).json({

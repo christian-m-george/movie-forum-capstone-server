@@ -2,7 +2,7 @@ const path = require('path')
 const express = require('express')
 const xss = require('xss')
 const PostService = require('./post-data-service')
-const { requireAuth } = require('../middleware/jwt-auth')
+// const { requireAuth } = require('../middleware/jwt-auth')
 
 const postRouter = express.Router()
 const jsonParser = express.json()
@@ -15,7 +15,7 @@ const serializePost = post => ({
 })
 
 postRouter
-    .route('/')
+    .route('/posts')
     .get((req, res, next) => {
         PostService.getPosts(req.app.get('db'))
             .then(posts => {
@@ -23,7 +23,7 @@ postRouter
             })
             .catch(next)
     })
-    .post(requireAuth, jsonParser, (req, res, next) => {
+    .post(jsonParser, (req, res, next) => {
         const { user_id, movie_id, post_title, post_content } = req.body
         const newPost = {  user_id, movie_id, post_title, post_content }
 
@@ -33,8 +33,8 @@ postRouter
                     error: { message: `Missing '${key}' in request body` }
                 })
 
-        newPost.user_id = req.user.id
-        newPost.user_id = req.user.user_id
+        // newPost.user_id = user_id
+        // newPost.user_id = req.user.user_id
 
         PostService.insertPost(
             req.app.get('db'),
@@ -49,23 +49,23 @@ postRouter
             .catch(next)
     })
 
-postRouter
-    .route('/:post_id')
-    .all((req, res, next) => {
-        PostService.getById(req.app.get('db'), req.params.post_id)
-            .then(post => {
-                if (!post) {
-                    return res.status(404).json({
-                        error: { message: `No posts exist` }
-                    })
-                }
-                res.posts = posts
-                next()
-            })
-            .catch(next)
-    })
-    .get((req, res, next) => {
-        res.json(res.posts)
-    })
+// postRouter
+//     .route('/:post_id')
+//     .all((req, res, next) => {
+//         PostService.getById(req.app.get('db'), req.params.post_id)
+//             .then(post => {
+//                 if (!post) {
+//                     return res.status(404).json({
+//                         error: { message: `No posts exist` }
+//                     })
+//                 }
+//                 res.posts = posts
+//                 next()
+//             })
+//             .catch(next)
+//     })
+//     .get((req, res, next) => {
+//         res.json(res.posts)
+//     })
 
 module.exports = postRouter;

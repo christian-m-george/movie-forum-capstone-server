@@ -1,12 +1,12 @@
-const postDataService = {
-	// getAllPosts(knex) {
-	// 	return knex.select('posts').from('api_data')
-	// },
+const commentDataService = {
+	getAllComments(knex) {
+		return knex.select('comments').from('comments')
+	},
 
-	insertPost(knex, newMovie) {
+	insertComment(knex, newMovie) {
 		return knex
 			.insert(newMovie)
-			.into('api_data')
+			.into('comments')
 			.returning('*')
 			.then(rows => {
 				return rows[0]
@@ -21,17 +21,17 @@ const postDataService = {
 	// 		.first()
 	// },
 
-	getByUserId(knex, user_id) {
+	getCommentById(knex, user_id) {
 		console.log(user_id)
 		return knex
-			.from('posts')
+			.from('comments')
 			.select('*')
 			.where('id', user_id)
 			.first()
 	},
 
-	deletePost(knex, id) {
-		return knex('posts')
+	deleteComment(knex, id) {
+		return knex('comments')
 			.where({
 				id
 			})
@@ -47,4 +47,4 @@ const postDataService = {
 	// },
 }
 
-module.exports = apiDataService;
+module.exports = commentDataService;

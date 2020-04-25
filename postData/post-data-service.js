@@ -1,12 +1,12 @@
 const postDataService = {
-	// getAllPosts(knex) {
-	// 	return knex.select('posts').from('api_data')
-	// },
+	getPosts(knex) {
+		return knex.select('posts').from('posts')
+	},
 
-	insertPost(knex, newMovie) {
+	insertPost(knex, newPost) {
 		return knex
-			.insert(newMovie)
-			.into('api_data')
+			.insert(newPost)
+			.into('posts')
 			.returning('*')
 			.then(rows => {
 				return rows[0]
@@ -47,4 +47,4 @@ const postDataService = {
 	// },
 }
 
-module.exports = apiDataService;
+module.exports = postDataService;

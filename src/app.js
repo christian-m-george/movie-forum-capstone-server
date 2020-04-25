@@ -5,7 +5,10 @@ const cors = require('cors')
 const helmet = require('helmet')
 const { NODE_ENV } = require('./config')
 const moviesRouter = require('../apiData/api-data-router');
-const userDataRouter = require('../usersData/users-data-router');
+const userDataRouter = require('../userData/user-data-router');
+const postDataRouter = require('../postData/post-data-router')
+const commentDataRouter = require('../commentData/comment-data-router')
+// const bcrypt = require('bcryptjs')
 const config = require('./config')
 
 
@@ -21,7 +24,9 @@ app.use(cors())
 
 
 app.use('/api/movies', moviesRouter)
-app.use('/api/user-data', userDataRouter)
+app.use('/user-data', userDataRouter)
+app.use('/posts', postDataRouter)
+app.use('/comments', commentDataRouter)
 app.get('/', (req, res) => {
     res.send('baseline working!')
 })

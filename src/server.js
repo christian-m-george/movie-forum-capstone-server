@@ -11,7 +11,9 @@ const {
 } = require('./config');
 // const moviesRouter = require('../apiData/api-data-router');
 // const userDataRouter = require('../usersData/users-data-router');
-const apiDataService = require('../apiData/api-data-service')
+const apiDataService = require('../apiData/api-data-service');
+// const bcrypt = require('bcryptjs');
+
 
 app.use(cors())
 
@@ -21,6 +23,11 @@ const db = knex({
 })
 
 app.set('db', db);
+
+
+app.use(require('../userData/user-data-router.js'));
+app.use(require('../postData/post-data-router.js'));
+app.use(require('../commentData/comment-data-router.js'));
 
 // https://api.themoviedb.org/3/search/movie?api_key=70ba99fec3f2ffeb58b1814b7fb15905&language=en-US&query=river%20runs%20through%20it
 
@@ -52,14 +59,14 @@ let getMovies = function (query) {
 };
 
 // local API endpoints
-app.get('/search/movie/:movieQuery', function (req, res) {
+app.get('/search/movie/:searchTerm', function (req, res) {
 
 
 	// knex.raw(knex('rates').insert(allRates).toString().replace('insert', 'INSERT IGNORE'));
 	
 	//external api function call and response
-	let searchReq = getMovies(req.params.movieQuery);
-
+	let searchReq = getMovies(req.params.searchTerm);
+	console.log(searchReq)
 	//get the data from the first api call
 	searchReq.on('end', function (newMovie) {
         console.log(newMovie.results.length, 'logging movie response');
@@ -133,7 +140,7 @@ app.get('/search/movie/:movieQuery', function (req, res) {
 			if (newMovie.results[i].release_date) {
 				dateOutputString = newMovie.results[i].release_date
 			}
-
+			// check to see if movie[i] exists in DB
 			dbSaveMovie[i] = {
 				movie_db_id: newMovie.results[i].id,
 				img: imgOutputString,
