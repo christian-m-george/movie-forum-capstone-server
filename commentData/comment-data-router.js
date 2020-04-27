@@ -8,23 +8,23 @@ const commentsRouter = express.Router()
 const jsonParser = express.json()
 
 const serializeComment = comment => ({
-    user_name: comment.user_name,
-    art_id: comment.art_id,
-    comment: xss(comment.comment),
+    user_id: comment.user_id,
+    post_id: comment.post_id,
+    comment_content: xss(comment.comment),
 })
 
 commentsRouter
     .route('/comments')
     .get((req, res, next) => {
-        commentDataService.getComments(req.app.get('db'))
+        commentDataService.getAllComments(req.app.get('db'))
             .then(comments => {
                 res.json(comments)
             })
             .catch(next)
     })
     .post(jsonParser, (req, res, next) => {
-        const { user_name, movie_id, comment } = req.body
-        const newComment = {  user_name, movie_id, comment }
+        const { user_id, post_id, comment_content } = req.body
+        const newComment = {  user_id, post_id, comment_content }
 
         for (const [key, value] of Object.entries(newComment))
             if (value == null)
@@ -32,8 +32,8 @@ commentsRouter
                     error: { message: `Missing '${key}' in request body` }
                 })
 
-        newComment.user_id = req.user.id
-        newComment.user_name = req.user.user_name
+        newComment.user_id = user_id
+        // newComment.user_id = user.user_id
 
         commentDataService.insertComment(
             req.app.get('db'),

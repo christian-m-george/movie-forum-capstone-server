@@ -1,5 +1,5 @@
 const xss = require('xss')
-// const bcrypt = require('bcryptjs')
+const bcrypt = require('bcrypt')
 
 const userService = {
     serializeUser(user) {

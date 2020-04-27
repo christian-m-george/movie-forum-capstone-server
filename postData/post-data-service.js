@@ -1,6 +1,6 @@
 const postDataService = {
 	getPosts(knex) {
-		return knex.select('posts').from('posts')
+		return knex.select('*').from('posts')
 	},
 
 	insertPost(knex, newPost) {
@@ -37,14 +37,6 @@ const postDataService = {
 			})
 			.delete()
 	},
-
-	// updateMovie(knex, id, newWineFields) {
-	// 	return knex('api_data')
-	// 		.where({
-	// 			id
-	// 		})
-	// 		.update(newFolderFields)
-	// },
 }
 
 module.exports = postDataService;

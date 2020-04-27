@@ -3,7 +3,7 @@ const path = require('path')
 const userRouter = express.Router()
 const jsonBodyParser = express.json()
 const userService = require('./user-data-service')
-// const bcrypt = require('bcryptjs')
+const bcrypt = require('bcrypt')
 
 
 // All users
