@@ -25,7 +25,7 @@ const db = knex({
 app.set('db', db);
 
 
-// app.use(require('../userData/user-data-router.js'));
+app.use(require('../userData/user-data-router.js'));
 app.use(require('../postData/post-data-router.js'));
 app.use(require('../commentData/comment-data-router.js'));
 
