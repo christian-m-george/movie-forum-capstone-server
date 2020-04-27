@@ -66,7 +66,7 @@ userRouter
 
 // Individual users by id
 userRouter
-    .route('/user/user_id')
+    .route('/user/:user_id')
     .all((req, res, next) => {
         const { user_id } = req.params;
         userService.getById(req.app.get('db'), user_id)

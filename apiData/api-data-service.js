@@ -14,18 +14,18 @@ const apiDataService = {
 			})
 	},
 
-	// getById(knex, id) {
-	// 	return knex
-	// 		.from('api_data')
-	// 		.select('*')
-	// 		.where('id', id)
-	// 		.first()
-	// },
+	getById(knex, id) {
+		return knex
+			.from('movies')
+			.select('*')
+			.where('id', id)
+			.first()
+	},
 
 	getByName(knex, name) {
 		console.log(name)
 		return knex
-			.from('api_data')
+			.from('movies')
 			.select('*')
 			.where('name', 'LIKE', `%${name}%`)
 			.first()
