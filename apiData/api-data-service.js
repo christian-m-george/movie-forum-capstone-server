@@ -18,7 +18,7 @@ const apiDataService = {
 		return knex
 			.from('movies')
 			.select('*')
-			.where('id', id)
+			.where('movie_db_id', id)
 			.first()
 	},
 
