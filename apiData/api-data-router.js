@@ -9,6 +9,7 @@ const http = require('http');
 const jsonParser = express.json();
 
 
+
 let getMovies = function (query) {
     // console.log('inside get movie function', query)
     let emitter = new events.EventEmitter();
@@ -45,7 +46,7 @@ moviesRouter
         const knexInstance = req.app.get('db');
         apiDataService.getAllMovies(knexInstance)
             .then(movies => {
-                console.log(movies)
+                // console.log(movies)
                 res.json(movies.map(movies => ({
                     ...movies,
                 })))
@@ -61,7 +62,7 @@ moviesRouter
 
 
         // knex.raw(knex('rates').insert(allRates).toString().replace('insert', 'INSERT IGNORE'));
-
+        console.log(req.params.searchTerm, 'server search term log')
         //external api function call and response
         let searchReq = getMovies(req.params.searchTerm);
         // console.log(searchReq)
@@ -143,84 +144,48 @@ moviesRouter
                 // check to see if movie[i] exists in DB
 
 
-                // dbSaveMovie[i] = {
-                //     movie_db_id: newMovie.results[i].id,
-                //     img: imgOutputString,
-                //     movie_title: newMovie.results[i].title,
-                //     release_date: dateOutputString,
-                //     average_rating: newMovie.results[i].vote_average,
-                //     genre: outputGenreString,
-                //     overview: newMovie.results[i].overview
-                // };
-
-                // console.log(dbSaveMovie, 'logging the movie save')
-                // apiDataService.insertMovie(req.app.get('db'), dbSaveMovie)
-                //     .then(newMovie => {
-                //         console.log(newMovie, 'logging newMovie within then')
-                //         res
-                //             .status(201)
-                //             .json(newMovie)
-                //     })
-                //     .catch(err => {
-                //         console.log(err);
-                //     });
-
-                // checks DB for moviedbID, and if it exists return newMovie as json
-                // if (!apiDataService.getById(req.app.get('db'), apiMovieId)) {
-                //     console.log('found', apiMovieId)
-                //     res
-                //         .status(201)
-                //         .json(newMovie)
-                //     return;
-                // }
-
                 // if movie does not exist in DB, save movie to DB and return movie as json
                 // else {
                 // console.log('else')
-                let movieFound = true
-                movieFound = apiDataService.getById(req.app.get('db'), apiMovieId)
-                    .then(movies => {
-                        console.log('these are the movies in DB', movies)
-                        if (!movies) {
-                            return false;
-                        }
-                        // return true; 
-                        next()
-                    })
-                    .catch(err => {
-                        console.log(err)
-                        next()
-                    })
+                // let movieFound = true
+                // movieFound = apiDataService.getById(req.app.get('db'), apiMovieId)
+                //     .then(movies => {
+                //         console.log('these are the movies in DB', movies)
+                //         if (movies == undefined) {
+                //             return false;
+                //         }
+                //         // return true; 
+                //         next()
+                //     })
+                //     .catch(err => {
+                //         console.log(err)
+                //         next()
+                //     })
                 // console.log(movieFound, 'this is the movie found')
 
-                if (movieFound == false) {
-                    dbSaveMovie[i] = {
-                        movie_db_id: apiMovieId,
-                        img: imgOutputString,
-                        movie_title: newMovie.results[i].title,
-                        release_date: dateOutputString,
-                        average_rating: newMovie.results[i].vote_average,
-                        genre: outputGenreString,
-                        overview: newMovie.results[i].overview
-                    };
-                }
-                // dbSaveMovie[i] = {
-                //     movie_db_id: apiMovieId,
-                //     img: imgOutputString,
-                //     movie_title: newMovie.results[i].title,
-                //     release_date: dateOutputString,
-                //     average_rating: newMovie.results[i].vote_average,
-                //     genre: outputGenreString,
-                //     overview: newMovie.results[i].overview
-                // };
-
-                console.log(dbSaveMovie, 'logging the movie save')
+                // if (movieFound == false) {
+                //     dbSaveMovie[i] = {
+                //         movie_db_id: apiMovieId,
+                //         img: imgOutputString,
+                //         movie_title: newMovie.results[i].title,
+                //         release_date: dateOutputString,
+                //         average_rating: newMovie.results[i].vote_average,
+                //         genre: outputGenreString,
+                //         overview: newMovie.results[i].overview
+                //     };
                 // }
-
-            }
-            apiDataService.insertMovie(req.app.get('db'), dbSaveMovie)
+                dbSaveMovie[i] = {
+                    movie_db_id: apiMovieId,
+                    img: imgOutputString,
+                    movie_title: newMovie.results[i].title,
+                    release_date: dateOutputString,
+                    average_rating: newMovie.results[i].vote_average,
+                    genre: outputGenreString,
+                    overview: newMovie.results[i].overview
+                };
+                apiDataService.insertMovie(req.app.get('db'), dbSaveMovie[i])
                 .then(newMovie => {
-                    console.log(newMovie, 'logging newMovie within then')
+                    // console.log(newMovie, 'logging newMovie within then')
                     next()
                     // res
                     //     .status(201)
@@ -229,6 +194,25 @@ moviesRouter
                 .catch(err => {
                     console.log(err);
                 });
+                
+                // }
+                
+
+            }
+            // console.log(newMovie.results, 'this is the newmovie results ******');
+            // console.log(dbSaveMovie, 'logging the movie save')
+
+            // apiDataService.insertMovie(req.app.get('db'), dbSaveMovie)
+            //     .then(newMovie => {
+            //         // console.log(newMovie, 'logging newMovie within then')
+            //         next()
+            //         // res
+            //         //     .status(201)
+            //         //     .json(dbSaveMovie)
+            //     })
+            //     .catch(err => {
+            //         console.log(err);
+            //     });
             res.json(dbSaveMovie)
         });
 

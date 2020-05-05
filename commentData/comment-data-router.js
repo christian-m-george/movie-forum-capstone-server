@@ -49,7 +49,7 @@ commentsRouter
     })
 
 commentsRouter
-    .route('/:object_id')
+    .route('/comment/:object_id')
     .all((req, res, next) => {
         commentDataService.getCommentById(req.app.get('db'), req.params.object_id)
             .then(comments => {
