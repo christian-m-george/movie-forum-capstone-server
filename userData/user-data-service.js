@@ -16,14 +16,14 @@ const userService = {
         return db('users')
             .where({ email })
             .first()
-            .then(user => !!user)
+            .then(user => user)
     },
     insertUser(db, newUser) {
         return db
             .insert(newUser)
             .into('users')
             .returning('*')
-            .then(([user]) => user)
+            .then(user => user)
     },
     validatePassword(password) {
         if (password.length < 6) {
@@ -37,7 +37,9 @@ const userService = {
         }
     },
     hashPassword(password) {
-        return bcrypt.hash(password, 12)
+        let hashedPassword = bcrypt.hash(password, 12);
+        console.log(hashedPassword, 'this is hashedPW from service')
+        return hashedPassword
     },
     deleteUser(knex, id) {
         return knex('users')

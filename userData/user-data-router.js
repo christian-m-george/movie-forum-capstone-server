@@ -34,45 +34,43 @@ userRouter
 
         if (passwordError)
             return res.status(400).json({ error: passwordError })
-
-        userService.insertUser(
-            req.app.get('db'),
-            newUser
-        )
-            .then(user => {
-                res
-                    .status(201)
-                    .location(path.posix.join(req.originalUrl, `/${user.id}`))
-                    .json(userService.serializeUser(user))
-            })
-
         userService.hasUserWithUserName(
             req.app.get('db'),
             email
         )
             .then(hasUserWithUserName => {
+                console.log(hasUserWithUserName, 'this is hasuserwithusername')
                 console.log('got this far')
-                if (hasUserWithUserName)
+                if (hasUserWithUserName) {
+                    console.log('inside if')
                     return res.status(400).json({ error: `Username already taken` })
+                }
 
-                return userService.hashPassword(password)
-                    .then(hashedPassword => {
-                        const newUser = {
-                            username,
-                            email,
-                            password: hashedPassword,
-                        }
-                        return userService.insertUser(
-                            req.app.get('db'),
-                            newUser
-                        )
-                            .then(user => {
-                                res
-                                    .status(201)
-                                    .location(path.posix.join(req.originalUrl, `/${user.id}`))
-                                    .json(userService.serializeUser(user))
+                else {
+                    console.log('inside else')
+                    return userService.hashPassword(password)
+                        .then(hashedPassword => {
+                            console.log(hashedPassword, 'this is the hashed pw')
+                            const newUser = {
+                                username,
+                                email,
+                                password: hashedPassword,
+                            }
+                            console.log(newUser, 'this is the newUser log')
+                            return userService.insertUser(
+                                req.app.get('db'),
+                                newUser
+                            )
+                                .then(user => {
+                                    console.log(user, 'this is the user log')
+                                    res
+                                        .status(201)
+                                        .location(path.posix.join(req.originalUrl, `/${user.id}`))
+                                        .json(user)
+                                })
+                                .catch(err => console.log(err))
                             })
-                    })
+                }
             })
             .catch(next)
     })
