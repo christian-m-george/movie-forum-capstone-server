@@ -63,12 +63,16 @@ userRouter
                             )
                                 .then(user => {
                                     console.log(user, 'this is the user log')
-                                    res
-                                        .status(201)
-                                        .location(path.posix.join(req.originalUrl, `/${user.id}`))
-                                        .json(user)
+                                    res.sendStatus(201).json(user)
+                                        // .status(201)
+                                        // .location(path.posix.join(req.originalUrl, `/${user.id}`))
+                                        
                                 })
-                                .catch(err => console.log(err))
+                                .catch(err => {
+                                    console.log(err)
+                                    // res.sendStatus(400).json({ error: `Could not insert user` })
+                                })
+                                
                             })
                 }
             })

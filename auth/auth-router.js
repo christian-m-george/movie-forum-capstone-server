@@ -1,13 +1,14 @@
 const express = require('express')
-const AuthService = require('./auth-service')
+const AuthService = require('./auth-data-service')
 
 const authRouter = express.Router()
 const jsonBodyParser = express.json()
 
 authRouter
     .post('/auth/login', jsonBodyParser, (req, res, next) => {
-        const { username, email, password } = req.body
-        const loginUser = { username, email, password }
+        const { email, password } = req.body
+        // const { username, email, password } = req.body
+        const loginUser = { email, password }
 
         for (const [key, value] of Object.entries(loginUser))
             if (value == null)

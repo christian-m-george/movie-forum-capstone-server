@@ -1,10 +1,10 @@
-const bcrypt = require('bcryptjs')
+const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const config = require('../config')
+const config = require('../src/config')
 
 const AuthService = {
     getUserWithUserName(db, email) {
-        return db('museum_users')
+        return db('users')
             .where({ email })
             .first()
     },

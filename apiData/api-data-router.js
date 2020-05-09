@@ -76,65 +76,65 @@ moviesRouter
             for (let i = 0; i < newMovie.results.length; i++) {
                 // console.log(newMovie[i], 'logging newmovie array')
                 let apiMovieId = newMovie.results[i].id
-                let outputGenreString = 'western';
+                let outputGenreString = 'Western';
                 if (newMovie.results[i].genre_ids[0] == 27) {
-                    outputGenreString = 'horror'
+                    outputGenreString = 'Horror'
                 }
                 else if (newMovie.results[i].genre_ids[0] == 28) {
-                    outputGenreString = 'action'
+                    outputGenreString = 'Action'
                 }
                 else if (newMovie.results[i].genre_ids[0] == 12) {
-                    outputGenreString = 'adventure'
+                    outputGenreString = 'Adventure'
                 }
                 else if (newMovie.results[i].genre_ids[0] == 16) {
-                    outputGenreString = 'animation'
+                    outputGenreString = 'Animation'
                 }
                 else if (newMovie.results[i].genre_ids[0] == 35) {
-                    outputGenreString = 'comedy'
+                    outputGenreString = 'Comedy'
                 }
                 else if (newMovie.results[i].genre_ids[0] == 80) {
-                    outputGenreString = 'crime'
+                    outputGenreString = 'Crime'
                 }
                 else if (newMovie.results[i].genre_ids[0] == 99) {
-                    outputGenreString = 'documentary'
+                    outputGenreString = 'Documentary'
                 }
                 else if (newMovie.results[i].genre_ids[0] == 18) {
-                    outputGenreString = 'drama'
+                    outputGenreString = 'Drama'
                 }
                 else if (newMovie.results[i].genre_ids[0] == 10751) {
-                    outputGenreString = 'family'
+                    outputGenreString = 'Family'
                 }
                 else if (newMovie.results[i].genre_ids[0] == 14) {
-                    outputGenreString = 'fantasy'
+                    outputGenreString = 'Fantasy'
                 }
                 else if (newMovie.results[i].genre_ids[0] == 36) {
-                    outputGenreString = 'history'
+                    outputGenreString = 'History'
                 }
                 else if (newMovie.results[i].genre_ids[0] == 10402) {
-                    outputGenreString = 'music'
+                    outputGenreString = 'Music'
                 }
                 else if (newMovie.results[i].genre_ids[0] == 9648) {
-                    outputGenreString = 'mystery'
+                    outputGenreString = 'Mystery'
                 }
                 else if (newMovie.results[i].genre_ids[0] == 10749) {
-                    outputGenreString = 'romance'
+                    outputGenreString = 'Romance'
                 }
                 else if (newMovie.results[i].genre_ids[0] == 878) {
-                    outputGenreString = 'science fiction'
+                    outputGenreString = 'Science fiction'
                 }
                 else if (newMovie.results[i].genre_ids[0] == 10770) {
-                    outputGenreString = 'tv movie'
+                    outputGenreString = 'TV movie'
                 }
                 else if (newMovie.results[i].genre_ids[0] == 53) {
-                    outputGenreString = 'thriller'
+                    outputGenreString = 'Thriller'
                 }
                 else if (newMovie.results[i].genre_ids[0] == 10752) {
-                    outputGenreString = 'war'
+                    outputGenreString = 'War'
                 }
 
-                let imgOutputString = 'https://legacyogden.com/wp-content/uploads/2015/07/No-Image-Available1.png';
+                let imgOutputString = 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/240px-No_image_available.svg.png';
                 if (newMovie.results[i].backdrop_path) {
-                    imgOutputString = newMovie.results[i].backdrop_path
+                    imgOutputString = `https://image.tmdb.org/t/p/w500/${newMovie.results[i].backdrop_path}`
                 }
 
                 let dateOutputString = '1900-01-01';
