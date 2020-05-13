@@ -53,6 +53,13 @@ const userService = {
             .where('id', id)
             .first()
     },
+    getByUsername(knex, username) {
+        return knex
+            .from('users')
+            .select('id')
+            .where('username', username)
+            .first()
+    }
 }
 
 module.exports = userService

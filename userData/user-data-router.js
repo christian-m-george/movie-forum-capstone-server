@@ -64,16 +64,16 @@ userRouter
                                 .then(user => {
                                     console.log(user, 'this is the user log')
                                     res.sendStatus(201).json(user)
-                                        // .status(201)
-                                        // .location(path.posix.join(req.originalUrl, `/${user.id}`))
-                                        
+                                    // .status(201)
+                                    // .location(path.posix.join(req.originalUrl, `/${user.id}`))
+
                                 })
                                 .catch(err => {
                                     console.log(err)
                                     // res.sendStatus(400).json({ error: `Could not insert user` })
                                 })
-                                
-                            })
+
+                        })
                 }
             })
             .catch(next)
@@ -81,7 +81,7 @@ userRouter
 
 // Individual users by id
 userRouter
-    .route('/user/:user_id')
+    .route('/user/id/:user_id')
     .all((req, res, next) => {
         const { user_id } = req.params;
         userService.getById(req.app.get('db'), user_id)
@@ -109,6 +109,67 @@ userRouter
                 res.status(204).end()
             })
             .catch(next)
+    })
+
+userRouter
+    .route('/getidwithusername/:username')
+    .all(jsonBodyParser, (req, res, next) => {
+        console.log(req.params.username, 'this is the req params')
+        const { username } = req.params.username
+            .then(userService.getByUsername(req.app.get('db'), username))
+
+        // for (const field of ['username', 'email', 'password'])
+        //     if (!req.body[field])
+        //         return res.status(400).json({
+        //             error: `Missing '${field}' in request body`
+        //         })
+        // const passwordError = userService.validatePassword(password)
+
+        // if (passwordError)
+        //     return res.status(400).json({ error: passwordError })
+        // userService.hasUserWithUserName(
+        //     req.app.get('db'),
+        //     email
+        // )
+        //     .then(hasUserWithUserName => {
+        //         console.log(hasUserWithUserName, 'this is hasuserwithusername')
+        //         console.log('got this far')
+        //         if (hasUserWithUserName) {
+        //             console.log('inside if')
+        //             return res.status(400).json({ error: `Username already taken` })
+        //         }
+
+        //         else {
+        //             console.log('inside else')
+        //             return userService.hashPassword(password)
+        //                 .then(hashedPassword => {
+        //                     console.log(hashedPassword, 'this is the hashed pw')
+        //                     const newUser = {
+        //                         username,
+        //                         email,
+        //                         password: hashedPassword,
+        //                     }
+        //                     console.log(newUser, 'this is the newUser log')
+        //                     return userService.insertUser(
+        //                         req.app.get('db'),
+        //                         newUser
+        //                     )
+        //                         .then(user => {
+        //                             console.log(user, 'this is the user log')
+        //                             res.sendStatus(201).json(user)
+        //                             // .status(201)
+        //                             // .location(path.posix.join(req.originalUrl, `/${user.id}`))
+
+        //                         })
+        //                         .catch(err => {
+        //                             console.log(err)
+        //                             // res.sendStatus(400).json({ error: `Could not insert user` })
+        //                         })
+
+        //                 })
+        //         }
+        //     })
+        //     .catch(next)
     })
 
 module.exports = userRouter

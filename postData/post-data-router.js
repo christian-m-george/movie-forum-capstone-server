@@ -16,19 +16,18 @@ const jsonParser = express.json()
 
 postRouter
     .route('/posts')
-    .get((req, res, next) => {
+    .get((req, res) => {
         console.log('this is working ********** this is the log')
         postDataService.getPosts(req.app.get('db'))
             .then(posts => {
                 res.json(posts)
             })
-            .catch(next)
+            .catch()
     })
     .post(jsonParser, (req, res, next) => {
-
-        console.log('logging *********** logging')
-        const { user_id, movie_id, post_title, post_content } = req.body
-        const newPost = {  user_id, movie_id, post_title, post_content }
+        console.log(req.body, 'this is the req body')
+        const { user_id, movie_db_id, post_title, post_content } = req.body
+        const newPost = {  user_id, movie_db_id, post_title, post_content }
 
         for (const [key, value] of Object.entries(newPost))
             if (value == null)
@@ -50,26 +49,26 @@ postRouter
                     // .json(serializePost(post))
                     .json(post)
             })
-            .catch(next)
+            .catch(err => console.log(err))
     })
 
-// postRouter
-//     .route('/:post_id')
-//     .all((req, res, next) => {
-//         postDataService.getById(req.app.get('db'), req.params.post_id)
-//             .then(post => {
-//                 if (!post) {
-//                     return res.status(404).json({
-//                         error: { message: `No posts exist` }
-//                     })
-//                 }
-//                 res.posts = posts
-//                 next()
-//             })
-//             .catch(next)
-//     })
-//     .get((req, res, next) => {
-//         res.json(res.posts)
-//     })
+postRouter
+    .route('/posts/:movie_id')
+    .get((req, res) => {
+        // console.log('hitting route')
+        postDataService.getByMovieId(req.app.get('db'), req.params.movie_id)
+            .then(post => {
+                if (!post) {
+                    return res.status(404).json({
+                        error: { message: `No posts exist` }
+                    })
+                }
+                res.json(post)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+            
+    })
 
 module.exports = postRouter;

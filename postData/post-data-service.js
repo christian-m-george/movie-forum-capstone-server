@@ -30,6 +30,13 @@ const postDataService = {
 			.first()
 	},
 
+	getByMovieId(knex, movie_db_id) {
+		return knex
+			.from('posts')
+			.select('*')
+			.where('movie_db_id', movie_db_id)
+	},
+
 	deletePost(knex, id) {
 		return knex('posts')
 			.where({
