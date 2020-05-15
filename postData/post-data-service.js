@@ -26,8 +26,7 @@ const postDataService = {
 		return knex
 			.from('posts')
 			.select('*')
-			.where('id', user_id)
-			.first()
+			.where('user_id', user_id)
 	},
 
 	getByMovieId(knex, movie_db_id) {

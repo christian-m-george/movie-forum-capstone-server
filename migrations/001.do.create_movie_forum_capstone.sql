@@ -23,8 +23,9 @@ CREATE TABLE posts (
     movie_db_id INTEGER
         REFERENCES movies(movie_db_id) ON DELETE CASCADE NOT NULL,
     user_id INTEGER REFERENCES users(id) ON DELETE CASCADE NOT NULL,
+    username VARCHAR REFERENCES users(username) ON DELETE CASCADE NOT NULL,
     post_title VARCHAR (255) NOT NULL,
-    post_content VARCHAR (255) NOT NULL,
+    post_content TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT NOW()
 );
 
