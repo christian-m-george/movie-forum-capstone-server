@@ -36,12 +36,6 @@ postRouter
           error: { message: `Missing '${key}' in request body` },
         });
 
-    // newPost.user_id = user_id
-    // newPost.user_id = req.user.user_id
-    // console.log(
-    //   "this is the console log ****************************",
-    //   newPost
-    // );
     postDataService
       .insertPost(req.app.get("db"), newPost)
       .then((post) => {
