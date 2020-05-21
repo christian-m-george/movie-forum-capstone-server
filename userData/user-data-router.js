@@ -43,7 +43,7 @@ userRouter
                 console.log('got this far')
                 if (hasUserWithUserName) {
                     console.log('inside if')
-                    return res.status(400).json({ error: `Username already taken` })
+                    return res.status(400).json({ error: `Email or username already taken` })
                 }
 
                 else {
