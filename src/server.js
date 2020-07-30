@@ -9,10 +9,6 @@ const {
 	PORT,
 	DATABASE_URL
 } = require('./config');
-// const moviesRouter = require('../apiData/api-data-router');
-// const userDataRouter = require('../usersData/users-data-router');
-// const apiDataService = require('../apiData/api-data-service');
-// const bcrypt = require('bcryptjs');
 
 
 app.use(cors())

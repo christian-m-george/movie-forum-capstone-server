@@ -10,43 +10,9 @@ const jsonParser = express.json();
 const axios = require("axios");
 
 let getMovies = function (query) {
-  // console.log('inside get movie function', query)
-  // let emitter = new events.EventEmitter();
-  // let options = {
-  //     host: 'api.themoviedb.org',
-  //     path: '/3/search/movie?api_key=70ba99fec3f2ffeb58b1814b7fb15905&language=en-US&query=' + query,
-  //     method: 'GET',
-  //     headers: {
-  //         'Authorization': "70ba99fec3f2ffeb58b1814b7fb15905",
-  //         'Content-Type': "application/json",
-  //         'Port': 443,
-  //     }
-  // };
 
   console.log("function is called");
 
-  // let options = {
-  //     host: 'api.themoviedb.org',
-  //     path: '/3/search/movie?api_key=70ba99fec3f2ffeb58b1814b7fb15905&language=en-US&query=' + query,
-  //     method: 'GET',
-  //     headers: {
-  //         'Authorization': "70ba99fec3f2ffeb58b1814b7fb15905",
-  //         'Content-Type': "application/json",
-  //         'Port': 443,
-  //     }
-  // };
-  // let output = '';
-  // http.get(options, function (res) {
-  //     res.on('data', function (chunk) {
-  //         output += chunk
-  //         console.log(output)
-  //         emitter.emit('end', JSON.parse(output));
-  //     });
-  // }).on('error', function (e) {
-  //     // console.log(e, 'this is the error log')
-  //     // emitter.emit('error', e);
-  // });
-  // return emitter;
 };
 
 moviesRouter.route("/movie/all").get((req, res, next) => {
@@ -206,7 +172,7 @@ moviesRouter
             },
           });
         }
-        res.movies = movies; // save the note for the next middleware
+        res.movies = movies; 
         next();
       })
       .catch(next);
@@ -215,27 +181,5 @@ moviesRouter
     res.json(res.movies);
   });
 
-// moviesRouter
-//     .route('/movies/:title')
-//     .all((req, res, next) => {
-//         apiDataService.getByName(req.app.get('db'), req.params.title)
-//             .then(movies => {
-//                 console.log(req.params.title);
-//                 console.log(movies);
-//                 if (!movies) {
-//                     return res.status(404).json({
-//                         error: {
-//                             message: `No movies by name to display`
-//                         }
-//                     })
-//                 }
-//                 res.movies = movies // save the note for the next middleware
-//                 next()
-//             })
-//             .catch(next)
-//     })
-//     .get((req, res, next) => {
-//         res.json(res.movies)
-//     })
 
 module.exports = moviesRouter;
