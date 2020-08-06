@@ -4,6 +4,14 @@ const app = require('../src/app')
 const helpers = require('./test-helpers.js')
 const postsStore = require('./posts-store')
 
+const testPost = {
+	"movie_db_id": 272,
+	"post_content": "this is the test post",
+	"post_title": "test post test post",
+	"user_id": 1, 
+	"username": "christian"
+}
+
 
 describe('Posts endpoints', () => {
     let db
@@ -25,7 +33,7 @@ describe('Posts endpoints', () => {
 
     afterEach('cleanup', () => helpers.cleanTables(db))
 
-    describe('GET /posts/posts', () => {
+    describe('posts endpoint', () => {
 
         context(`returns all posts`, () => {
             beforeEach('insert posts', () => {
@@ -47,14 +55,17 @@ describe('Posts endpoints', () => {
             })
         })
 
-        // context('Given there are records in the database', () => {
-        //     beforeEach('insert records', () =>
-        //         helpers.seedRecordsTables(
-        //             db,
-        //             testUsers,
-        //             testRecords
-        //         )
-        //     )
-        // })
+        context(`posts a post`, () => {
+            it(`responds with 201 and an obj`, () => {
+                return supertest(app)
+                    .post(`/posts/posts`)
+                    .send(testPost)
+                    // .set('Authorization', helpers.makeAuthHeader(validUser))
+                    .expect(201)
+                    // .expect(res => {
+                    //     expect(res.body).to.be.a('array');
+                    // });
+            })
+        })
     })
 })
