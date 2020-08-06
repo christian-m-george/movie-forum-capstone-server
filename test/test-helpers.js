@@ -5,21 +5,25 @@ function makeUsersArray() {
     return [
         {
             id: 1,
+            username: 'userone',
             email: 'test-user-1',
             password: 'password1',
         },
         {
             id: 2,
+            username: 'usertwo',
             email: 'test-user-2',
             password: 'password1',
         },
         {
             id: 3,
+            username: 'userthree',
             email: 'test-user-3',
             password: 'password1',
         },
         {
             id: 4,
+            username: 'userfour',
             email: 'test-user-4',
             password: 'password',
         },
@@ -106,6 +110,7 @@ function seedMovies(db, movies = []) {
 }
 
 function seedUsers(db, users) {
+    // console.log(users, 'this should be users log')
     const preppedUsers = users.map(user => ({
         ...user,
         password: bcrypt.hashSync(user.password, 1)
@@ -121,15 +126,6 @@ function seedUsers(db, users) {
 }
 
 
-function seedMaliciousmovie(db, user, movie) {
-    return seedUsers(db, [user])
-        .then(() =>
-            db
-                .into('movies')
-                .insert([movie])
-        )
-}
-
 function makeAuthHeader(user, secret = process.env.JWT_SECRET) {
     const token = jwt.sign({ user_id: user.id }, secret, {
         subject: user.email,
@@ -144,7 +140,6 @@ module.exports = {
     makeMoviesFixtures,
     makeUsersArray,
     cleanTables,
-    seedMaliciousmovie,
     makeAuthHeader,
     seedUsers,
     makeExpectedMovie,

@@ -1,10 +1,8 @@
-const { expect } = require('chai')
-const supertest = require('supertest')
 const knex = require('knex')
+const xss = require('xss')
 const app = require('../src/app')
 const helpers = require('./test-helpers.js')
-const xss = require('xss')
-
+const { movieStore } = require('./movie-store')
 
 
 describe('Movie endpoints', () => {
@@ -28,6 +26,7 @@ describe('Movie endpoints', () => {
     afterEach('cleanup', () => helpers.cleanTables(db))
 
     describe('GET /movie/all', () => {
+
         context(`returns all movies`, () => {
             beforeEach('insert movies', () =>
                 helpers.seedMovies(
@@ -38,20 +37,23 @@ describe('Movie endpoints', () => {
             it(`responds with 200 and a list`, () => {
                 // const validUser = testUsers[0]
                 return supertest(app)
-                    .get(`/movie/all`)
+                    .get(`/api/movies/movie/all`)
                     // .set('Authorization', helpers.makeAuthHeader(validUser))
-                    .expect(200, [])
+                    .expect(200)
+                    .expect(res => {
+                        expect(res.body).to.be.a('array');
+                    });
             })
         })
 
-        context('Given there are records in the database', () => {
-            beforeEach('insert records', () =>
-                helpers.seedRecordsTables(
-                    db,
-                    testUsers,
-                    testRecords
-                )
-            )
-        })
+        // context('Given there are records in the database', () => {
+        //     beforeEach('insert records', () =>
+        //         helpers.seedRecordsTables(
+        //             db,
+        //             testUsers,
+        //             testRecords
+        //         )
+        //     )
+        // })
     })
 })

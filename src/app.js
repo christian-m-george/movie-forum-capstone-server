@@ -8,8 +8,8 @@ const moviesRouter = require('../apiData/api-data-router');
 const userDataRouter = require('../userData/user-data-router');
 const postDataRouter = require('../postData/post-data-router')
 const commentDataRouter = require('../commentData/comment-data-router')
+const authRouter = require('../auth/auth-router')
 // const bcrypt = require('bcryptjs')
-const config = require('./config')
 
 
 const app = express()
@@ -27,8 +27,9 @@ app.use('/api/movies', moviesRouter)
 app.use('/user-data', userDataRouter)
 app.use('/posts', postDataRouter)
 app.use('/comments', commentDataRouter)
+app.use('/auth', authRouter)
 app.get('/', (req, res) => {
-    res.send('baseline working!')
+    res.send('Hello, world!')
 })
 
 app.use(function errorHandler(error, req, res, next) {

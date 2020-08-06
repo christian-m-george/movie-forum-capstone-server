@@ -1,3 +1,4 @@
+require('dotenv').config()
 const knex = require('knex')
 const jwt = require('jsonwebtoken')
 const app = require('../src/app')
@@ -7,7 +8,7 @@ describe('Auth Endpoints', function () {
     let db
 
     const testUsers = helpers.makeUsersArray()
-    // console.log(testUsers)
+    // console.log(testUsers,'this should log the test users')
     const testUser = testUsers[0]
 
     before('make knex instance', () => {
@@ -24,7 +25,7 @@ describe('Auth Endpoints', function () {
 
     afterEach('cleanup', () => helpers.cleanTables(db))
 
-    describe(`POST /api/auth/login`, () => {
+    describe(`POST /auth/auth/login`, () => {
         beforeEach('insert users', () =>
             helpers.seedUsers(
                 db,
@@ -44,7 +45,7 @@ describe('Auth Endpoints', function () {
                 delete loginAttemptBody[field]
 
                 return supertest(app)
-                    .post('/api/auth/login')
+                    .post('/auth/auth/login')
                     .send(loginAttemptBody)
                     .expect(400, {
                         error: `Missing '${field}' in request body`,
@@ -55,7 +56,7 @@ describe('Auth Endpoints', function () {
         it(`responds 400 'invalid email or password' when bad email`, () => {
             const userInvalidUser = { email: 'user-not', password: 'existy' }
             return supertest(app)
-                .post('/api/auth/login')
+                .post('/auth/auth/login')
                 .send(userInvalidUser)
                 .expect(400, { error: `Incorrect email or password` })
         })
@@ -63,7 +64,7 @@ describe('Auth Endpoints', function () {
         it(`responds 400 'invalid email or password' when bad password`, () => {
             const userInvalidPass = { email: testUser.email, password: 'incorrect' }
             return supertest(app)
-                .post('/api/auth/login')
+                .post('/auth/auth/login')
                 .send(userInvalidPass)
                 .expect(400, { error: `Incorrect email or password` })
         })
@@ -82,7 +83,7 @@ describe('Auth Endpoints', function () {
                 }
             )
             return supertest(app)
-                .post('/api/auth/login')
+                .post('/auth/auth/login')
                 .send(userValidCreds)
                 .expect(200, {
                     authToken: expectedToken,

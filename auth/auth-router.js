@@ -8,7 +8,7 @@ authRouter
     .post('/auth/login', jsonBodyParser, (req, res, next) => {
         const { email, password } = req.body
         // const { username, email, password } = req.body
-        const loginUser = { email, password }
+        const loginUser = { email, password }  
 
         for (const [key, value] of Object.entries(loginUser))
             if (value == null)
