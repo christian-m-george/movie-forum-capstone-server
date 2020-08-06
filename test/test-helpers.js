@@ -46,6 +46,8 @@ function makeMoviesArray() {
 
 }
 
+
+
 function makeExpectedMovie(users, movie = []) {
     const user = users
         .find(user => user.id == movie.user_id)
@@ -126,6 +128,21 @@ function seedUsers(db, users) {
 }
 
 
+
+function seedPosts(db, posts) {
+    // console.log(users, 'this should be users log')
+    // const preppedUsers = users.map(user => ({
+    //     ...user,
+    //     password: bcrypt.hashSync(user.password, 1)
+    // }))
+    return db.into('posts').insert(posts)
+        .then(() =>
+            // update the auto sequence to stay in sync
+            db.select('*').from('posts')
+        )
+}
+
+
 function makeAuthHeader(user, secret = process.env.JWT_SECRET) {
     const token = jwt.sign({ user_id: user.id }, secret, {
         subject: user.email,
@@ -142,5 +159,6 @@ module.exports = {
     cleanTables,
     makeAuthHeader,
     seedUsers,
+    seedPosts,
     makeExpectedMovie,
 }
