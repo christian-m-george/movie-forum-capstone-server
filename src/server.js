@@ -23,7 +23,6 @@ app.set('db', db);
 app.use(require('../apiData/api-data-router'));
 app.use(require('../userData/user-data-router.js'));
 app.use(require('../postData/post-data-router.js'));
-app.use(require('../commentData/comment-data-router.js'));
 app.use(require('../auth/auth-router.js'));
 
 // https://api.themoviedb.org/3/search/movie?api_key=70ba99fec3f2ffeb58b1814b7fb15905&language=en-US&query=river%20runs%20through%20it

@@ -7,7 +7,6 @@ const { NODE_ENV } = require('./config')
 const moviesRouter = require('../apiData/api-data-router');
 const userDataRouter = require('../userData/user-data-router');
 const postDataRouter = require('../postData/post-data-router')
-const commentDataRouter = require('../commentData/comment-data-router')
 const authRouter = require('../auth/auth-router')
 // const bcrypt = require('bcryptjs')
 
@@ -26,7 +25,6 @@ app.use(helmet())
 app.use('/api/movies', moviesRouter)
 app.use('/user-data', userDataRouter)
 app.use('/posts', postDataRouter)
-app.use('/comments', commentDataRouter)
 app.use('/auth', authRouter)
 app.get('/', (req, res) => {
     res.send('Hello, world!')
